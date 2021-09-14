@@ -550,7 +550,7 @@
   
   df <- mydata[, !(names(mydata) %in% vars_keep)]
   dataforZ <- df[, !(names(df) %in% keep)]
-  -
+  
   # randomly select 5 additional matching variables
   random_sel <- ifelse(length(dataforZ) < 5, length(dataforZ), 5)
   
