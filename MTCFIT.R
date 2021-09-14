@@ -303,8 +303,8 @@
             plot.title = element_text(face = "bold", hjust = 0.5,size=9)))
   
   # colors
-  best_rand_lty <- "longdash" # or lty = 5
-  vert_bar_color <- "#e72b56" # rm "...FF"
+  best_rand_lty <- "longdash"
+  vert_bar_color <- "#e72b56"
   ref_line_color <- "black"
   NN_color <- "#a21fa8"
   MAH_color <- "#d4840d"
@@ -360,7 +360,7 @@
     geom_hline(aes(yintercept = unadj_low), results_gr1, linetype = "dashed") +
     geom_hline(aes(yintercept = unadj_high), results_gr1, linetype = "dashed") + 
     geom_hline(aes(yintercept = eff_line_val), linetype = "dotdash") + # 1
-    annotate(geom = "text", x = 2.5, y = uplab_up, label = label_eff_line, size = 2.3) + # Effect=1
+    annotate(geom = "text", x = 2.5, y = uplab_up, label = label_eff_line, size = 2.3) +
     mytheme  +
     scale_color_manual(values = c(NN_color, MAH_color))
   
@@ -371,7 +371,7 @@
   ##################################################################
   #pull median OR and CI for each model;
   S_med_OR <- data.frame(summaryBy(eftr ~ PredsIn + method, data = results, 
-                                 FUN = list(median))) # median of n(ratio) X n()
+                                 FUN = list(median)))
   S_med_LL <- data.frame(summaryBy(ci_low ~ PredsIn + method, data = results, 
                                  FUN = list(min)))
   S_med_LL <- subset(S_med_LL, select = -c(PredsIn, method))
@@ -391,7 +391,7 @@
   S_med_lab2 <- subset(S_med_all, S_med_all$ID == 2)
   
   
-  #3 3=MEDIAN, 4=LL, 5=UL
+
   colnames(S_med_lab1) <- paste0("NN", 1:ncol(S_med_lab1))
 
   colnames(S_med_lab2) <- paste0("MA", 1:ncol(S_med_lab2))
@@ -431,7 +431,7 @@
     annotate(geom = "text", x = combon, y = uplab2, label = ttt_x_label, size = 2.3, 
              colour = MAH_color) +
     geom_hline(aes(yintercept = eff_line_val), linetype = "dotdash") + # 1
-    annotate(geom = "text", x = 2.5, y = uplab_up, label = label_eff_line, size = 2.3) + # "Effect=1"
+    annotate(geom = "text", x = 2.5, y = uplab_up, label = label_eff_line, size = 2.3) +
     mytheme +
     scale_color_manual(values = c(NN_color, MAH_color))
 
@@ -732,7 +732,7 @@
   new_table_body_df <- data.frame(`Match Type` = c("Best", "Random", "Computational"),
                                   `Method (cal, ratio)` = c(
                                     paste0(tbmtd," (", tbcal, ", ", tbk, ")"), 
-                                    paste0(as.character(thebestwithz$method), " (",  # this best method, ratio, cal same as "best"
+                                    paste0(as.character(thebestwithz$method), " (",
                                            thebestwithz$tbcal, ", ", thebestwithz$tbk, ")"),
                                     paste0(compmtd, " (", compcal, ", ", compk, ")")
                                     ),
@@ -810,7 +810,7 @@
   )
 
   bottom_right_panel <- new_table_body %>%
-    tab_add_title(text = new_table_subtitle_text, face = "plain", size = 10) # make smaller size to account for additoinal width
+    tab_add_title(text = new_table_subtitle_text, face = "plain", size = 10)
   
   left_panel <- ggarrange(myplot1, myplot2 + font("x.text", size = 9),
                           common.legend = TRUE, legend = "bottom",
