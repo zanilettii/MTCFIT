@@ -328,9 +328,9 @@
  
   # position for label in graph
   if (typeY == "binomial") { 
-    uplab_up <- 1.02
+    uplab_up <- 1.1
   } else {
-    uplab_up <- .02
+    uplab_up <- .1
   }
   
   
@@ -398,11 +398,11 @@
 
   # position for label in graph
   if (S_med_lab1$NN3 > S_med_lab2$MA3) {
-    uplab1 <- S_med_lab1$NN3 + .02
-    uplab2 <- S_med_lab2$MA3 - .02
+    uplab1 <- S_med_lab1$NN3 + .1
+    uplab2 <- S_med_lab2$MA3 - .1
   } else {
-    uplab1 <- S_med_lab1$NN3 - .02
-    uplab2 <- S_med_lab2$MA3 + .02
+    uplab1 <- S_med_lab1$NN3 - .1
+    uplab2 <- S_med_lab2$MA3 + .1
   }
   
   
@@ -642,7 +642,7 @@
   finalZ <- rbind(with_Z1, with_Z2, with_Z3, with_Z4, with_Z5)
   
   #position for label in graph
-  upzip1 <- finalZ$tbef + .03
+  upzip1 <- finalZ$tbef + .1
   
   diffz2 <- tbul - tbll
   
