@@ -734,7 +734,7 @@
                                     paste0(tbmtd," (", tbcal, ", ", tbk, ")"), 
                                     paste0(as.character(thebestwithz$method), " (",
                                            thebestwithz$tbcal, ", ", thebestwithz$tbk, ")"),
-                                    paste0(compmtd, " (", compcal, ", ", compk, ")")
+                                    paste0(" ")
                                     ),
                                   Model = c(stringr::str_wrap(tbfml, 20),
                                             stringr::str_wrap(prdsfnz, 20),
