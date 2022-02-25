@@ -303,8 +303,8 @@
             plot.title = element_text(face = "bold", hjust = 0.5,size=9)))
   
   # colors
-  best_rand_lty <- "longdash"
-  vert_bar_color <- "#e72b56"
+  best_rand_lty <- "longdash" 
+  vert_bar_color <- "#e72b56" 
   ref_line_color <- "black"
   NN_color <- "#a21fa8"
   MAH_color <- "#d4840d"
@@ -324,13 +324,13 @@
   # label for plots
   ttt_x_label <- sub(x = ttt, pattern = trt, replacement = "trt")
   
-  uplab <- unadj_efftr + .02
+  uplab <- unadj_efftr + .1
  
   # position for label in graph
   if (typeY == "binomial") { 
-    uplab_up <- 1.1
+    uplab_up <- 1.05
   } else {
-    uplab_up <- .1
+    uplab_up <- .05
   }
   
   
@@ -347,8 +347,7 @@
   eff_line_val <- ifelse(typeY == "binomial", 1, 0)
   
   combon <- nvars * (nvars - 1)/4
-  
-  
+ 
   myplot1 <- ggplot(data = results_gr1, aes(x = kc, y = eftr, color = method)) +
     geom_point(aes(kc, eftr), size = 1, position = position_dodge(.2)) +
     geom_errorbar(aes(ymin = ci_low, ymax = ci_high, linetype = method), 
@@ -363,7 +362,8 @@
     annotate(geom = "text", x = 2.5, y = uplab_up, label = label_eff_line, size = 2.3) +
     mytheme  +
     scale_color_manual(values = c(NN_color, MAH_color))
-  
+ 
+
   ##################################################################
   #GRAPH 2 - Median effect + xx%CI from all methods+cal+k 
   #with effect from match on all variables + xx%error band
@@ -391,7 +391,7 @@
   S_med_lab2 <- subset(S_med_all, S_med_all$ID == 2)
   
   
-
+ 
   colnames(S_med_lab1) <- paste0("NN", 1:ncol(S_med_lab1))
 
   colnames(S_med_lab2) <- paste0("MA", 1:ncol(S_med_lab2))
@@ -435,6 +435,7 @@
     mytheme +
     scale_color_manual(values = c(NN_color, MAH_color))
 
+  
   # calculate number of ORs >1, =1, <1;
   if(typeY == "binomial") {
     results_forp <- results %>% mutate(
@@ -642,7 +643,7 @@
   finalZ <- rbind(with_Z1, with_Z2, with_Z3, with_Z4, with_Z5)
   
   #position for label in graph
-  upzip1 <- finalZ$tbef + .1
+  upzip1 <- finalZ$tbef + .05
   
   diffz2 <- tbul - tbll
   
@@ -655,7 +656,7 @@
   myplot3 <- ggplot(data = finalZ, aes(x = Z, y = eftr)) +
     geom_point(aes(Z, eftr),  size = 1, position = position_dodge(.2)) +
     geom_errorbar(aes(ymin = ci_low, ymax = ci_high, linetype = method), width = .5, position = position_dodge(.2), size = .5) +
-    scale_x_discrete(name = "Best Match with Randomly Selected Covariate", guide = guide_axis(angle = 45)) + 
+    scale_x_discrete(name = "Reduced Covariate Model (RCM) + Randomly Selected Covariate (Z)", guide = guide_axis(angle = 45)) + 
     scale_y_continuous(name = labeleff) + 
     geom_hline(aes(yintercept = tbef), finalZ, color = clr) + 
     annotate(geom = "text", x = combon, y = upzip1, label = tbfml_x_label, size = 2.5, color = clr) + 
@@ -665,6 +666,8 @@
     annotate(geom = "text", x = 2.5, y = uplab_up, label = label_eff_line, size = 2.3) + 
     mytheme +
     theme(legend.title = element_blank()) + theme(legend.position = "none")
+  
+
   
   ###########################################
   # identify best final model with random var
@@ -729,11 +732,11 @@
   tlabx2 <- paste(Z_kp, collapse = ",  ")
   Zs <- paste0("z", 1:5)
   
-  new_table_body_df <- data.frame(`Match Type` = c("Best", "Random", "Computational"),
+  new_table_body_df <- data.frame(`Match Type` = c("RCM", "RCM+Z", "COMP"),
                                   `Method (cal, ratio)` = c(
-                                    paste0(tbmtd," (", tbcal, ", ", tbk, ")"), 
-                                    paste0(as.character(thebestwithz$method), " (",
-                                           thebestwithz$tbcal, ", ", thebestwithz$tbk, ")"),
+                                    stringr::str_wrap(paste0(tbmtd," (", tbcal, ", ", tbk, ")"), 20),
+                                    stringr::str_wrap(paste0(as.character(thebestwithz$method), " (",
+                                           thebestwithz$tbcal, ", ", thebestwithz$tbk, ")"),20),
                                     paste0(" ")
                                     ),
                                   Model = c(stringr::str_wrap(tbfml, 20),
@@ -825,8 +828,14 @@
   final_plot <- ggarrange(left_panel, right_panel, ncol = 2, nrow = 1)
   supp_table <- rbind(tab1NA, tab1MA)
   
-  out <- list(plot_table = new_table_body_df, supplemental_table = supp_table, 
+  supp_table_pix <-supp_table %>%
+    ggtexttable(theme = ttheme(tbody.style = tbody_style(size = 10, 
+                                                         hjust = 0, 
+                                                         x = 0.1)), rows = NULL) 
+  
+  out <- list(plot1=myplot1, plot2=myplot2, plot3=myplot3, bottomt=bottom_right_panel, supplemental=supp_table_pix, plot_table = new_table_body_df, supplemental_table = supp_table, 
               plot = final_plot)
   
+ 
   print(out)
 }
